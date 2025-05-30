@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Tic Tac Toe</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="game-background">
+        <div class="container">
+            <div class="game-container">
+                <div class="game-header">
+                    <h1 class="game-title">Tic Tac Toe</h1>
+                    <p class="game-subtitle">A modern take on the classic game</p>
+                </div>
+                
+                <div class="game-main">
+                    <div class="game-sidebar">
+                        <div class="player-cards">
+                            <div class="player-card player-x active" id="player-x">
+                                <div class="player-avatar">
+                                    <div class="player-symbol">X</div>
+                                </div>
+                                <div class="player-details">
+                                    <div class="player-name">Player 1</div>
+                                    <div class="player-score"><span id="x-wins">0</span> wins</div>
+                                </div>
+                            </div>
+                            
+                            <div class="player-card player-o" id="player-o">
+                                <div class="player-avatar">
+                                    <div class="player-symbol">O</div>
+                                </div>
+                                <div class="player-details">
+                                    <div class="player-name">Player 2</div>
+                                    <div class="player-score"><span id="o-wins">0</span> wins</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="game-status-wrapper">
+                            <div class="game-status" id="status">
+                                <div class="current-turn-symbol" id="current-symbol">X</div>
+                                <div class="turn-text"><span>Player 1's turn</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="game-controls">
+                            <button id="restart-button" class="btn btn-primary control-btn">
+                                <i class="fas fa-redo-alt"></i>
+                                <span>Restart</span>
+                            </button>
+                            
+                            <button type="button" class="btn btn-outline-secondary control-btn" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </button>
+                        </div>
+                        
+                        <div class="game-stats">
+                            <h3 class="stats-title">Game Stats</h3>
+                            <div class="stats-item">
+                                <div class="stat-label">Draws</div>
+                                <div class="stat-value" id="draws">0</div>
+                            </div>
+                            <div class="stats-item">
+                                <div class="stat-label">Total Games</div>
+                                <div class="stat-value" id="total-games">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="board-wrapper">
+                        <div class="board-container">
+                            <div class="board" id="board">
+                                <div class="cell" data-cell-index="0"></div>
+                                <div class="cell" data-cell-index="1"></div>
+                                <div class="cell" data-cell-index="2"></div>
+                                <div class="cell" data-cell-index="3"></div>
+                                <div class="cell" data-cell-index="4"></div>
+                                <div class="cell" data-cell-index="5"></div>
+                                <div class="cell" data-cell-index="6"></div>
+                                <div class="cell" data-cell-index="7"></div>
+                                <div class="cell" data-cell-index="8"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content settings-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingsModalLabel">
+                        <i class="fas fa-cog settings-icon-spin"></i> Game Settings
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body settings-body">
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <i class="fas fa-users"></i>
+                            <h6>Player Profiles</h6>
+                        </div>
+                        <div class="player-inputs">
+                            <div class="player-input player-x-input">
+                                <div class="player-symbol-badge">X</div>
+                                <input type="text" class="form-control" id="player1Name" placeholder="Player 1">
+                            </div>
+                            <div class="player-input player-o-input">
+                                <div class="player-symbol-badge">O</div>
+                                <input type="text" class="form-control" id="player2Name" placeholder="Player 2">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <i class="fas fa-palette"></i>
+                            <h6>Theme Selection</h6>
+                        </div>
+                        <div class="theme-selector">
+                            <div class="theme-option" data-theme="light">
+                                <input type="radio" name="themeOptions" id="themeLight" value="light" checked class="theme-radio">
+                                <label for="themeLight" class="theme-label">
+                                    <div class="theme-preview light-preview">
+                                        <div class="preview-cell"></div>
+                                        <div class="preview-cell"></div>
+                                        <div class="preview-cell"></div>
+                                        <div class="preview-cell"></div>
+                                    </div>
+                                    <span>Light</span>
+                                </label>
+                            </div>
+                            <div class="theme-option" data-theme="dark">
+                                <input type="radio" name="themeOptions" id="themeDark" value="dark" class="theme-radio">
+                                <label for="themeDark" class="theme-label">
+                                    <div class="theme-preview dark-preview">
+                                        <div class="preview-cell"></div>
+                                        <div class="preview-cell"></div>
+                                        <div class="preview-cell"></div>
+                                        <div class="preview-cell"></div>
+                                    </div>
+                                    <span>Dark</span>
+                                </label>
+                            </div>
+                            <div class="theme-option" data-theme="colorful">
+                                <input type="radio" name="themeOptions" id="themeColorful" value="colorful" class="theme-radio">
+                                <label for="themeColorful" class="theme-label">
+                                    <div class="theme-preview colorful-preview">
+                                        <div class="preview-cell"></div>
+                                        <div class="preview-cell"></div>
+                                        <div class="preview-cell"></div>
+                                        <div class="preview-cell"></div>
+                                    </div>
+                                    <span>Colorful</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <i class="fas fa-volume-up"></i>
+                            <h6>Sound & Effects</h6>
+                        </div>
+                        <div class="sound-toggle-container">
+                            <div class="form-check form-switch sound-switch">
+                                <input class="form-check-input" type="checkbox" id="soundToggle" checked>
+                                <label class="form-check-label" for="soundToggle">Enable Sound Effects</label>
+                            </div>
+                            <div class="sound-icon">
+                                <i class="fas fa-music"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" id="saveSettings" data-bs-dismiss="modal">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Winner Modal -->
+    <div class="modal fade" id="winnerModal" tabindex="-1" aria-labelledby="winnerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="winnerModalLabel">Game Over</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="winner-message" id="winner-message">Player X wins!</div>
+                    <div class="winner-animation">
+                        <i class="fas fa-trophy winner-trophy"></i>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="newGameBtn" data-bs-dismiss="modal">New Game</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container pb-0">
+            <div class="footer-content">
+                <div class="footer-text">Designed & Developed by <span class="developer-name">Joker Designs</span></div>
+                <div class="footer-features" data-bs-toggle="modal" data-bs-target="#featuresModal">
+                    <span class="feature-icon"><i class="fas fa-plus"></i></span>
+                    <span class="feature-text">Other Features</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Features Modal -->
+    <div class="modal fade" id="featuresModal" tabindex="-1" aria-labelledby="featuresModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content features-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="featuresModalLabel">
+                        <i class="fas fa-rocket features-icon-animate"></i> Explore More Games
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body features-body">
+                    <div class="features-intro">
+                        <p>Discover our collection of fun and engaging games to challenge your mind!</p>
+                    </div>
+                    
+                    <div class="game-cards-container">
+                        <!-- Current Game Card -->
+                        <div class="game-card current-game">
+                            <div class="game-card-inner">
+                                <div class="game-card-front">
+                                    <div class="game-logo">
+                                        <i class="fas fa-th"></i>
+                                    </div>
+                                    <h3 class="game-title">Tic Tac Toe</h3>
+                                    <div class="game-tag">Currently Playing</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- WORDVERSE Game Card -->
+                        <div class="game-card">
+                            <div class="game-card-inner">
+                                <div class="game-card-front">
+                                    <div class="game-logo wordverse-logo">
+                                        <i class="fas fa-font"></i>
+                                    </div>
+                                    <h3 class="game-title">WORDVERSE</h3>
+                                    <p class="game-description">Test your vocabulary skills in this word game</p>
+                                    <a href="https://boisterous-zabaione-270e06.netlify.app/" target="_blank" class="btn btn-play">
+                                        <i class="fas fa-play"></i> Play Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="coming-soon-section">
+                        <h4 class="coming-soon-title"><i class="fas fa-hourglass-half"></i> Coming Soon</h4>
+                        <div class="coming-soon-games">
+                            <div class="coming-soon-game">
+                                <div class="coming-soon-icon">
+                                    <i class="fas fa-chess"></i>
+                                </div>
+                                <div class="coming-soon-name">Chess Master</div>
+                            </div>
+                            <div class="coming-soon-game">
+                                <div class="coming-soon-icon">
+                                    <i class="fas fa-puzzle-piece"></i>
+                                </div>
+                                <div class="coming-soon-name">Puzzle Quest</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+ 
